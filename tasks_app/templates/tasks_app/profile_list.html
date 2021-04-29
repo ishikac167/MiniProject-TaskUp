@@ -1,0 +1,21 @@
+{% block content %}
+<h1>Profile List</h1>
+{% if profile_list %}
+<ul>
+  {% for profile in profile_list %}
+  <li>
+  <li><b>First Name</b>: {{profile.fname}}</li>
+  <li><b>Last Name</b>: {{profile.lname}}</li>
+  <li><b>Priorty</b>: {{profile.priority}}</li>
+  <li><b>Headline</b>: {{profile.headline}}</li>
+  <li><b>Current Position</b>: {{profile.position}}</li>
+  <li><b>Education</b>: {{profile.education}}</li>
+  <li><b>Country</b>: {{profile.country}}</li>
+  <li><b>State</b>: {{profile.state}}</li>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There is no profile in the library.</p>
+{% endif %}
+{% endblock %}

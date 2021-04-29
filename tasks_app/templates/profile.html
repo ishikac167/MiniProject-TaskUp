@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'profile.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'TaskUp.png' %}">
+
+    <title>TaskUp - Profile</title>
+</head>
+
+<body>
+    <center>
+        <button class="profile-button" onclick="myFunction()" style="margin-top: 15px;">Display Progress</button>
+    
+    
+    <div id="imagediv" style="display: none;">
+        <img src="{% static 'sale_purchase_peichart.png' %}" />
+    </div>
+</center>
+    <div class="container rounded bg-white mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-2>
+            
+            <div class="side_wrapper">
+                <section class="about-dev">
+                    <header class="profile-card_header">
+                        <div class="profile-card_header-container">
+                            <div class="profile-card_header-imgbox">
+                                <div class="userimage">
+                                    
+                                    
+                                    {% if profile.image %}
+                                    <img src="{{ profile.image.url }}" id="img-result">
+                                    {% else %}
+                                    <button class="no-image" id="img-result" disabled>Upload Image</button>
+                                    {% endif %}
+                                </div>
+                                <!-- <button class="show-button">Show server request</button>
+                                      <div class="upload-result">
+                                        <button class="hide-button">Close</button> -->
+
+                            </div>
+                           
+                            <h1>{{ user }} <span>
+                                    <p id="user_headline">{{ profile.headline }}</p>
+                                </span></h1>
+                        </div>
+                    </header>
+                    <div class="profile-card_about">
+                        <h2>All About {{ user }}</h2>
+                        <br>
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <p id="user_fname">
+                                    {{ profile.fname }}
+                                </p>
+                            </div>
+                            <div class="col">
+                                <p id="user_lname">
+                                    {{ profile.lname }}
+                                </p>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                        </div>
+                        <b>Current Position:</b>
+                        <p id="user_current">{{ profile.position }}</p>
+                        <b>Education:</b>
+                        <p id="user_education">{{ profile.education }}</p>
+                        <b>Country:</b>
+                        <p id="user_country">{{ profile.country }}</p>
+                        <b>State:</b>
+                        <p id="user_state">{{ profile.state }}</p>
+
+
+                        
+                    </div>
+                </section>
+            </div>
+
+
+            <!-- <div class="border-right"></div> -->
+            <div class="col-md" id="editsec">
+                <form action="add_profile/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p}}
+                <div class="d-flex justify-content-between align-items-center">
+                    <center><h5>Edit your profile</h5></center>
+                </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
+                            placeholder="Enter First Name" id="firstname" name="fname" value= "{{ profile.fname }}" ></div>
+                    
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control"
+                            placeholder=" Enter Last name" id="lastname" name="lname" value="{{ profile.lname }}" ></div>
+                    </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-12"><label class="labels">Headline</label><input type="text" class="form-control"
+                            placeholder="Headline" id="Headline" name="headline" value="{{ profile.headline }}" ></div>
+                        
+                    <div class="col-md-12"><label class="labels">Current position</label><input type="text"
+                            class="form-control" placeholder="Current Position" name="position" id="posn" value="{{ profile.position }}" >
+                    </div>
+                   
+                    <div class="col-md-12"><label class="labels">Education</label><input type="text"
+                            class="form-control" placeholder="Education" name="education" id="education" value="{{ profile.education }}" >
+                    </div>
+              
+                </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control"
+                            placeholder="country" id="country" name="country" value="{{ profile.country }}" ></div>
+                    
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
+                            class="form-control" placeholder="state" name="state" id="state" value="{{ profile.state }}" ></div>
+                
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="labels"> Add image to upload:</label>
+                        <input type="file" id="img" name="image">
+                        {{count}}
+                </div>
+            </div>
+                <div class="mt-5 text-center">
+                    <p> 
+                        
+                        <button class="profile-button" type="submit" value="submit">Save Profile</button>
+                        <button class="profile-button"><a style="text-decoration: none; color: white;" href="{% url 'home' %}">Back</a></button>
+                    </p>
+                </div>
+
+            </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--importing javascript & bootstrap-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js'></script>
+    {% load static %}
+    <script src="{% static 'profile.js' %}"></script>
+
+</body>
+
+</html>

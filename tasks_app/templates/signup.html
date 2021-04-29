@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link href="{% static 'login.css' %}" type="text/css" rel="stylesheet">
+        <title>TaskUp - SignUp</title>
+        <link rel="icon" href="{% static 'TaskUp.png' %}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        {% if form.errors %}
+        <p>Username already exists</p>
+        {% endif %}
+        <div class="row">
+            {% block content %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="login-box">
+                        <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in"><label for="tab-1" class="tab"><a href="{% url 'login' %}"> Login</label> </a><input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">Sign Up</label>
+                            <div class="login-space">
+                                <div class="sign-up-form">
+                                    <!-- <form method="post">
+                                        {% csrf_token %}
+                                    <div class="group"> <label for="user" class="label">{{ form.username.label }}</label> 
+                                        <input id="user" type="text" class="input" placeholder="Create your Username" {{ field }} required> </div>
+                                    <div class="group"> <label for="pass" class="label">Password{{ form.password.label }}</label> 
+                                        <input id="pass" type="password" class="input" data-type="password" placeholder="Create your password" {{ field }} /> </div>
+                                    <div class="group"> <label for="pass" class="label">Repeat Password</label> 
+                                        <input id="pass" type="password" class="input" data-type="password" placeholder="Repeat your password" > </div>
+                                    <div class="group"> <label for="pass" class="label">Email Address</label> 
+                                        <input id="pass" type="text" class="input" placeholder="Enter your email address"> </div>
+                                    <div class="group"> <input type="submit" class="button" value="Sign Up" /> </div>
+                                    <div class="hr"></div>
+                                    {{ field.errors }}
+                                    <div class="foot"> <label for="tab-1">Already Member?</label> </div>
+                                    </form> -->
+                                    <form method="post">
+                                        <br>
+                                        {% csrf_token %}
+                                            <div class="group">
+                                                <label class="label">Username</label>
+                                                <input class="input" placeholder="Enter username" type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" required="" id="id_username">
+                                                {{ field.errors }}
+                                            </div>
+                                            <div class="group">
+                                                <label class="label">First Name</label>
+                                                <input class="input" placeholder="Enter first name" type="text" name="first_name" maxlength="150" autocapitalize="none" autocomplete="first_name" autofocus="" required="" id="id_first_name">
+                                                {{ field.errors }}
+                                            </div>
+                                            <div class="group">
+                                                <label class="label">Last Name</label>
+                                                <input class="input" placeholder="Enter last name" type="text" name="last_name" maxlength="150" autocapitalize="none" autocomplete="last_name" autofocus="" required="" id="id_last_name">
+                                                {{ field.errors }}
+                                            </div>
+                                            <div class="group">
+                                                <label class="label">Email</label>
+                                                <input class="input" placeholder="Enter email" type="email" name="email" maxlength="150" autocapitalize="none" autocomplete="email" autofocus="" required="" id="id_email">
+                                                {{ field.errors }}
+                                            </div>
+                                            <div class="group">
+                                                <label class="label">Password</label>
+                                                <input class="input" placeholder="Enter password" type="password" name="password1" autocomplete="new-password" required="" id="id_password1">
+                                                {{ field.errors }}
+                                            </div>
+                                            <div class="group">
+                                                <label class="label">Reconfirm Password</label>
+                                                <input class="input" placeholder="Re-enter password" type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
+                                                {{ field.errors }}
+                                            </div>
+                                            <br>
+                                        <div class="group"> <input type="submit" class="button" value="Sign Up" onclick="return passwordValidate()"> </div>
+                                        <div class="hr"></div>
+                                        <div class="foot"> <label for="tab-1"></label><a href="{% url 'login' %}">Already Member?</a></label> </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        <script>
+            function passwordValidate() {
+                var password = document.getElementById("id_password1").value;
+                var confirmPassword = document.getElementById("id_password2").value;
+                if (password != confirmPassword) {
+                    alert("Passwords do not match.");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </body>
+</html>

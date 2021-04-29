@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+  <title>TaskUp</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Favicons -->
+  {% load static %}
+  <!-- <link href="{% static TaskUp.png %}" rel="icon"> -->
+  <link rel="icon" href="{% static 'TaskUp.png' %}">
+
+  <!--Font Awesome icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+    
+
+  <!-- Template Main CSS File -->
+  <link href="./static/main.css" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a style="text-decoration:none" href="#home">TaskUp</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#home">Home</a></li>
+          <li><a class="nav-link scrollto" href="#tasks">Tasks</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto" href="#reviews">Reviews</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li class="dropdown"><a style="text-decoration:none" href="#"><i
+                class="icon nav-link bi bi-person-circle"></i></a>
+            <ul>
+              <li></li><a style="text-decoration:none" href="{% url 'profile'%}">Profile</a>
+          </li>
+          {% if user.username %}
+          <form action="accounts/logout/" method='POST'>
+            {% csrf_token %}
+            <li><a style="text-decoration:none" href="{% url 'login'%}">Logout</a></li>
+          </form>
+          {% endif %}
+        </ul>
+        </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Home Section ======= -->
+
+  <section id="home" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1>Welcome {{user}}</h1>
+      <h2>We are here to help you manage your weekly/monthly schedules</h2>
+      <a style="text-decoration:none" href="#tasks" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section>
+
+  <main id="main">
+
+    <!-- ======= Task Section ======= -->
+    <section id="tasks" class="tasks">
+      <div class="container">
+
+        <div class="row">
+
+          <!------------------------------------------ form of adding new tasks ------------------------------------------>
+          <div class="col" style="margin-top: 0; margin-right: 10px; background-color: rgba(9, 241, 172, 0.4)">
+            <div>
+              <p>
+                <center>
+                  <button class="tasks_button" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+                    aria-expanded="false" aria-controls="multiCollapseExample1">Add Task</button>
+                </center>
+
+              </p>
+
+              <div class="row">
+                <div class="col">
+                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <form action="add_task/" method="post">
+                      {% csrf_token %}
+                      {{ form }}
+                      <center>
+
+
+                        <div class="card" style="width: 18rem; text-align: left;">
+                          <div class="card-body">
+                            <h5 class="card-title">Add Task</h5>
+                            <p class="card-text">
+                            <div class="form-group">
+                              <label for="exampleFormControlInput1">Title</label>
+                              <input class="form-control" style="background-color: rgb(233, 245, 248)" name="title">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Priority</label>
+                              <select class="form-control" style="border:none; background-color:rgb(233, 245, 248);"
+                                name="priority">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Due Date</label>
+                              <input type="date" class="form-control"
+                                style="border:none; background-color:rgb(233, 245, 248);" name="duedate">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlInput1">Description</label>
+                              <textarea class="form-control" style="border:none; background-color:rgb(233, 245, 248);"
+                                name="description" rows="3"></textarea>
+                            </div>
+                            <center>
+
+                              <button type="submit" value="Submit" class="tasks_button"
+                                style="height: 40px; width: 80px; text-align: center;">Add</button>
+
+                            </center>
+                            </p>
+                          </div>
+                        </div>
+                      </center>
+                    </form>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--------------------------------- daily tasks ----------------------------------------------->
+          <div class="col" style="background-color: rgba(9, 241, 172, 0.4); margin-top: 0;">
+            <div>
+              <div class="row">
+                {% if today %}
+                <div class="col">
+                  <p>
+                    <center>
+                      <button class="tasks_button" data-toggle="collapse" href="#day_{{forloop.counter}}" role="button"
+                        aria-expanded="false" aria-controls="multiCollapseExample1" data-bs-toggle="tooltip" data-bs-placement="top" title="Daily Tasks">{{today.date}}</button>
+                    </center>
+
+                  </p>
+
+                  <div class="collapse multi-collapse" id="day_{{forloop.counter}}">
+                    <div class="card-body">
+                      
+                      <h5 class="card-title">{{today.date}}</h5>
+                      
+                      {% for task in today.daily_tasks.all %}
+                      {% if task.user == user %}
+                      <p class="card-text">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item" {% if task.done %} style="background-color: pink;" {% endif %}>
+                          {{task.title}}</li>
+                      </ul>
+                      </p>
+                      {% endif %}
+                      {% endfor %}
+                      
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <br>
+
+        <!----------------------------------------- tasks ----------------------------------------------->
+        <div class="container">
+          <div class="alert alert-custom" role="alert" style="width: 100%;">
+            <div class="row">
+              <div class="col">
+              <h2 style="margin-left: 15px;">Tasks</h2>
+            </div>
+            <div class="col">
+            
+              <button class="tasks_button" style="text-decoration:none; float: right; border-radius: 5px; height: 40px; text-align: center;"><a href="{% url 'delete' %}" style="text-decoration:none; color: white;"> Delete All </a></button>
+              
+            </div>
+            </div>
+            
+            <div class="row" style="margin-left: 5px;">
+              {% for task in tasks %}
+              <div id="task_{{task.id}}" class="card "
+                style="width: 18rem; margin: 8px; {% if task.done %} background-color: pink; {% elif day > task.duedate %} background-color: red; {% endif %}">
+                <!--card buttons -->
+                <div class="row">
+                  <div class="col">
+                    <!-- remove button -->
+                    <form action="{{task.id}}/remove_task/" method='POST'>
+                      {% csrf_token %}
+                      <button type="submit" value="submit" style=" text-decoration: none; margin: 5px;"
+                        class="btn btn-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Task"><i class="fa fa-window-close" style="font-size: 25px; color: black;"></i></button>
+                    </form>
+                  </div>
+                  <!-- add to daily tasks button -->
+                  <!-- <div class="col">
+              <form action="{{task.id}}/add_task_to_daily_tasks/" method='POST'>
+                {% csrf_token %}
+                <button type="submit" value="submit" style=" text-decoration: none;"
+                  class="btn btn-link">&#x2622;</button>
+              </form>
+            </div> -->
+                  <!-- remove from daily tasks button -->
+                  <!-- <div class="col"> -->
+                  <!-- <form action="{{task.id}}/remove_task_from_daily_tasks/" method='POST'>
+                {% csrf_token %}
+                <button type="submit" value="submit" style=" text-decoration: none;"
+                  class="btn btn-link">&#x1F4A4;</button>
+              </form>
+            </div> -->
+                  <!-- done button -->
+                  <div class="col">
+                    <form action="{{task.id}}/task_done/" method='POST'>
+                      {% csrf_token %}
+                      <button type="submit" value="submit" style=" text-decoration: none; float: right; margin: 5px;"
+                        class="btn btn-link"><i class="fa fa-check-square"
+                          style="font-size: 25px; color: black;" data-bs-toggle="tooltip" data-bs-placement="top" title="Complete Task"></i></button>
+                    </form>
+                    <!-- done flag -->
+                    {% if task.done %}
+                    <!-- <b>done!</b> -->
+                    {% endif %}
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title"
+                      style="color: black; font-family: papyrus; letter-spacing: 2px; font-weight: bold; font-size: 20px; padding-left: 15px;">
+                      {{task.title}}</h5>
+                    <p class="card-text">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><b>Priority</b>: {{task.priority}}</li>
+                      <li class="list-group-item"><b>Due Date</b>: {{task.duedate}}</li>
+                      <li class="list-group-item"><b>Description</b>: {{task.description}}</li>
+                      <li class="list-group-item"><span><b>Time Left:</b> {{ task.duedate|timeuntil }}</span></li>
+                    </ul>
+                    </p>
+                    <!-- add to daily tasks button -->
+                    <div class="row">
+                      <form action="{{task.id}}/add_task_to_daily_tasks/" method='POST'>
+                        {% csrf_token %}
+                        <button type="submit" value="submit" style=" text-decoration: none; float: right;"
+                          class="btn btn-link"><i class="fa fa-plus-circle"
+                            style="font-size:25px; color: black;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to daily tasks"></i></button>
+                      </form>
+                    </div>
+                    <!-- remove from daily tasks button -->
+                    <div class="row">
+                      <form action="{{task.id}}/remove_task_from_daily_tasks/" method='POST'>
+                        {% csrf_token %}
+                        <button type="submit" value="submit" style=" text-decoration: none; float: right; "
+                          class="btn btn-link"><i class="fa fa-minus-circle"
+                            style="font-size:25px; color: black;" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove from daily tasks"></i></button>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Optional JavaScript -->
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+          {% load static %}
+          <script src="{% static 'ajax.js' %}"></script>
+        </div>
+      </div>
+    </section>
+    <!-- End Task Section -->
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Contact Us</span>
+          <h2>Contact Us</h2>
+          <p>Contact us for any bugs or recommendations</p>
+          <!-- {% if name %}
+            <center>
+              <h2>Thankyou {{ name }}</h2>
+              <p>We received your email and will respond shortly!</p>
+            </center>
+          {% endif %} -->
+        </div>
+
+        <div class="data-aos fadeup"></div>
+        <table class="table table-borderless">
+          <tr>
+            <td style="width: 550px;">
+              <div class="info-box  mb-2">
+                <i class="bx bx-envelope"></i>
+                <h3>Email Us</h3>
+                <p>contact@example.com</p>
+              </div>
+            </td>
+            <td rowspan="2">
+              
+                <div class="info-box" style="padding: 15px;">
+                <form>
+                <div class="row" style="margin-top: 7px; margin-bottom: 5px;">
+                  <div class="col-md-6 form-group">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  </div>
+                  <div class="col-md-6 form-group mt-3 mt-md-0">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                </div>
+                <div class="row"></div>
+                <div class="form-group mt-3">
+                  <textarea class="form-control" name="message" rows="5" placeholder="Message"  required></textarea>
+                </div>
+                
+                <div class="text-center"><button type="submit" class="tasks_button" style="background-color: lightseagreen;">Send Message</button></div>
+                
+              </form>
+            </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 550px;">
+              <div class="info-box  mb-3">
+                <i class="bx bx-phone-call"></i>
+                <h3>Call Us</h3>
+                <p>+1 5589 55488 55</p>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+    </section>
+    <!-- ====== End Contact Section ===== -->
+    <!-- ====== Review  Section ===== -->
+    <section id="reviews" class="reviews">
+
+      <div class="section-title" style="padding: 0px;">
+        <span>Reviews</span>
+        <h2>Reviews</h2>
+      </div>
+      <div class="quotes page-width">
+        <div class="quotes-slide slideshow__slide--active" data-slider-slide-index="0" aria-hidden="false"
+          tabindex="-1">
+          <blockquote class="quotes-slider__text text-left">
+            <span class="quote-icon">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35">
+                <path
+                  d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z">
+                </path>
+              </svg>
+            </span>
+
+            <div class="content">
+              <p>Great user interface and experience, it is very simple to use and the design is very pretty, this is
+                important
+                to make anyone engaged on updating their tasks. Its simplicity of use and flexibility are TaskUp's
+                strengths. You
+                can set up a task in seconds. It has literally 0 learning curve.
+                Also the pricing, it offers a lot of functionality for free!
+              </p>
+            </div>
+            <cite>Serena C</cite>
+          </blockquote>
+        </div>
+
+        <div class="quotes-slide slideshow__slide--active" data-slider-slide-index="1" aria-hidden="false"
+          tabindex="-1">
+          <blockquote class="quotes-slider__text text-left">
+            <span class="quote-icon"><svg aria-hidden="true" focusable="false" role="presentation"
+                class="icon icon-quote" viewBox="0 0 41 35">
+                <path
+                  d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z">
+                </path>
+              </svg>
+            </span>
+
+            <div class="content">
+              <p>There are many things which I like in TaskUp. Its like a diary where I write my daily schedules tasks.
+                With the help of TaskUp I am able to remember my task its provide alerts just befoe the due date.
+                Deadline,
+                Checklist of items, attachment for external URLs to manage the work I like most.
+                I like its countdown timer that helps me to update about the task just before the due date.
+              </p>
+            </div>
+            <cite>Joy L</cite>
+          </blockquote>
+        </div>
+
+        <div class="quotes-slide slideshow__slide--active" data-slider-slide-index="2" aria-hidden="false"
+          tabindex="-1">
+          <blockquote class="quotes-slider__text text-left">
+            <span class="quote-icon"><svg aria-hidden="true" focusable="false" role="presentation"
+                class="icon icon-quote" viewBox="0 0 41 35">
+                <path
+                  d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z">
+                </path>
+              </svg>
+            </span>
+            <div class="content">
+              <p>I use TaskUp for planning my days. I find it a great tool for just using as a to-do list as it allows
+                the
+                flexibility of free form text and descriptions for things I need to do. It allows me to fill in fixed
+                tasks then
+                shuffle them around in case new things come in during the day. This is one of the most used apps on my
+                laptop.
+              </p>
+            </div>
+            <cite>Christopher C</cite>
+          </blockquote>
+        </div>
+
+      </div>
+
+    </section>
+    <!-- ====== End Review Section ===== -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Team</span>
+          <h2>Team</h2>
+          <p>A group of 3 friends coming up with an idea to help people work efficiently.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="./static/devanshi.jpg" alt="">
+              <h4>Devanshi Jhaveri</h4>
+              <span>60003190017</span>
+              <p>
+                Undergraduate IT student at DJ Sanghvi College of Engineering.
+              </p>
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="https://www.facebook.com/devanshi.jhaveri.73/" target="_blank"><i
+                    class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/devanshijhaveri/" target="_blank"><i class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/devanshi-jhaveri-aa548b1a4/" target="_blank"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="./static/hetvi.jpg" alt="">
+              <h4>Hetvi Jain</h4>
+              <span>60003190024</span>
+              <p>
+                Undergraduate IT student at DJ Sanghvi College of Engineering
+              </p>
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="https://www.facebook.com/hetvi.praful" target="_blank"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/hetviijain" target="_blank"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="./static/ishika.jpg" alt="">
+              <h4>Ishika Chokshi</h4>
+              <span>60003190027</span>
+              <p>
+                Undergraduate IT student at DJ Sanghvi College of Engineering
+              </p>
+              <div class="social">
+                <a href="https://twitter.com/ChokshiIshika" target="_blank"><i class="bi bi-twitter"></i></a>
+                <a href="https://www.facebook.com/ishika.c1671" target="_blank"><i class="bi bi-facebook"></i></a>
+                <a href="https://instagram.com/ishikachokshi?igshid=7yjru49aezzy" target="_blank"><i
+                    class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/ishika-chokshi-68133b1a1/" target="_blank"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </section><!-- End Team Section -->
+
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+
+  <!-- Vendor JS Files -->
+  <script src="./static/vendor/aos/aos.js"></script>
+  <script src="./static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="./static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="./static/vendor/php-email-form/validate.js"></script>
+  <script src="./static/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="./static/main.js"></script>
+
+  <!-- jQuery CDN from google !-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Optional JavaScript -->
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <!-- {% load static %}
+<script src="{% static 'ajax.js' %}"></script> -->
+
+
+</body>
+
+</html>

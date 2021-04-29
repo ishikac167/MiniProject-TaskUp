@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link href="{% static 'login.css' %}" type="text/css" rel="stylesheet">
+        <title>TaskUp - Login</title>
+        <link rel="icon" href="{% static 'TaskUp.png' %}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./static/TaskUp.png" rel="icon">
+    </head>
+    <body>
+        {% block content %}
+
+        {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="login-box">
+                        <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"><a href="{% url 'signup_page' %}"> Sign Up</label></a>
+                            <div class="login-space">
+                                <form method="post" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                <div class="login">
+                                    <div class="group">
+                                        <br>
+                                         <label for="user" class="label">{{ form.username.label }}</label> 
+                                        <input id="user" type="text" class="input" placeholder="Enter your username" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="">
+                                    </div>
+                                    <div class="group"> <label for="pass" class="label">{{ form.password.label }}</label> 
+                                        <input id="pass" type="password" class="input" data-type="password" placeholder="Enter your password" name="password" autocomplete="current-password" required="">    
+                                    </div>
+                                    <br>
+                                    <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span> Keep me Signed in</label> </div>
+                                    <div class="group"> <button type="submit" class="button" value="{{ next }}">Login</button> </div>
+                                    <div class="hr"></div>
+                                    <div class="foot"> <a href="{% url 'password_reset' %}">Forgot password?</a> </div>
+                                    {% endblock %}
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+
+    
